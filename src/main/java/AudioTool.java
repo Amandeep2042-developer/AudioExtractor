@@ -3,6 +3,7 @@ import java.io.*;
 public class AudioTool {
     public static void main(String[] args) {
 
+
         // ===== PROJECT ROOT =====
         String projectRoot = System.getProperty("user.dir");
         System.out.println("Project Root: " + projectRoot);
@@ -67,10 +68,14 @@ public class AudioTool {
                 while ((line = br.readLine()) != null) {
                     System.out.println(line);
                 }
+                
+                int exitCode = process.waitFor();
 
-                process.waitFor();
-                System.out.println("✅ Audio created: " + outputAudio.getAbsolutePath());
-                System.out.println("--------------------------------------------------");
+                if (exitCode == 0) {
+                    System.out.println("✅ Audio created: " + outputAudio.getAbsolutePath());
+                } else {
+                    System.err.println("❌ FFmpeg failed. Exit code: " + exitCode);
+                }System.out.println("--------------------------------------------------");
 
             } catch (Exception e) {
                 e.printStackTrace();
